@@ -28,7 +28,7 @@ int main(void) {
   Vector r1(1.0); // R1
   cout << "Vector class object with number of dimensions:"
        << r1.dimension_  << endl;
-  return EXIT_SUCESS;
+  return EXIT_SUCCESS;
 }       
 ```
 2. Add to the `Vector` class new constructors with 2 and 3 arguments corresponding to 2 or 3 dimensional vectors.
