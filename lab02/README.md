@@ -1,39 +1,153 @@
-# Methodology and Programming Techniques 2
-### IEiT-EAT-1 MaPT2
+# Lab 02 
+## C++: Inheritance 1
+Authors: Jarosław Bułat, Artur Kos. Updated by: Andres Vejar.
 
-#### Lectures 
-Jarosław Bułat, course coordinator (kwant@agh.edu.pl).
-#### Laboratory 
-Andres Vejar (avejar@agh.edu.pl) and Faysal Marzuk (marzuk@agh.edu.pl)
 
-### Course Information
-#### Attendance
-1. Laboratory classes are scheduled every week on Mondays.
-2. Student attendance during laboratory classes is mandatory.
-3. It is not allowed to make up past laboratory classes in case of absence.
-4. One unexcused laboratory absence during the course is permitted.
-5. Each subsequent unexcused absence decreases the final grade by 0.5 points.
-6. Unexcused absence of 20% of the classes or more cancels the right to retake
-   the laboratory or exam after the first failed approach (according to
-   the rules of AGH-UST).
-#### Laboratory topics
-- C++ 
-- introduction to Matlab.
-- introduction to Python.
+### Exercise 1
+1. Try to compile and run the following code:
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
 
-#### Final grade
-1. Students during the semester can obtain points from:
-  - Laboratory reports, with due one week after the lesson. Further
-    instructions to submit your reports are available at
-    (https://upel.agh.edu.pl/course/view.php?id=3610).
-  - Two tests, one from C++ topics and the second one from the Matlab and
-    Python topics.  Each class test would be several multiple-choice
-    questions and a few questions based on writing programs/codes.
-2. More than 50% of the total number of points is required to pass the
-   laboratory part of the course.
-3. Final laboratory mark grade is determined by converting the obtained
-   number of points according to the AGH-UST Regulations of Study
-   (https://www.agh.edu.pl/fileadmin/default/templates/images/dokumenty/uchwaly_senatu/2017/0426/26_04_2017_42_.pdf)
-4. Alternative option of passing the MaPT laboratory classes: a project in
-   C++ presented before the end of the semester.
-    
+class Student {
+private:
+  void printDescription();
+public:
+  Student();
+  string description = "A student of the group";
+};
+
+Student::Student() {
+  cout << "Creating an object of the class "
+          "Student, with description: "
+       << endl << " " << description << endl;
+}
+
+void Student::printDescription() {
+  cout << "description: " << description << endl;
+}
+
+class Chairman {
+public:
+  string description = "A chairman of the group";
+};
+
+int main() {
+  Student stud;
+  stud.printDescription();
+  return EXIT_SUCCESS;
+}
+```
+
+Why the program is not compiling? Find the error, correct the code, and run
+the program again. Pay attention to the messages displayed on the screen.
+
+
+2. Modify the program so that the `Chairman` class will inherit from the
+`Student` class.
+
+3. Create a new `Chairman` object and run the program.  What are the
+messages displayed?  What can be concluded about the constructor execution
+order?
+
+4. Call the `printDescription()` method for created object. What are the
+messages displayed?  What is the conclusion with respect to the execution
+of the inherited method?
+
+5. Place the modified code **in your branch** in the remote repository.
+
+
+### Exercise 2
+Using the code from **Exercise 1**: 
+
+1. Modify the `Chairman` class so now it will contain its own
+`printDescription()` method, differing only in the content of the
+displayed message.
+
+2. Call the `printDescription()` method for created object.  What are the
+messages displayed?  What is the conclusion with respect to the execution
+of the new method?
+
+3. Place the modified code **in your branch** in the remote repository.
+
+### Exercise 3
+Run the following code:
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+public:
+  string name_surname = "NO_NAME";
+  unsigned int id_number = 0;
+  string description = "A student of the group";
+  Student(string name_surname, unsigned int id_number);
+  void printDescription();
+  void printData() {
+    cout << " Method print_data() of the base class" << endl;
+    cout << " name surname " << name_surname << endl;
+    cout << " id number " << id_number << endl;
+  }
+};
+
+class Chairman : public Student {
+public:
+  string email = "no@noemail";
+  Chairman(string name_surname, unsigned int id_number, string email);
+  string description = "A chairman of the group";
+};
+
+Chairman::Chairman(string name_surname, unsigned int id_number, string email)
+  : Student(name_surname, id_number)
+  , email(email) {
+  cout << "Creating an object of the Chairman class named: "
+       << description << endl;
+}
+
+Student::Student(string name_surname, unsigned int id_number)
+  : name_surname(name_surname)
+{
+  id_number = id_number;
+  cout << "Creating an object of the Student class named: "
+       << description << endl;
+}
+
+void Student::printDescription()
+{
+  cout << "Description: " << description << endl;
+}
+
+int main() {
+  Student stud("Jan Kowalski", 7);
+  stud.printDescription();
+  cout << "Data:"
+       << stud.name_surname << " "
+       << stud.id_number << endl;
+  Chairman chair("Aleksandra Nowak", 999, "mail@nomail.dot");
+  chair.printDescription();
+  cout << "Data:"
+       << chair.name_surname << " "
+       << chair.id_number << endl;
+       
+  return EXIT_SUCCESS;
+}
+```
+
+1. Analyze its operation. Note how a new, derived class object is created.
+   The constructor of the `Student` class provides the wrong information for the
+   variable id_number.  Please correct the constructor to obtain the
+   correct value of id_number when a new object is created.
+
+2. Modify the definition of the base class so that the members
+`surname_name` and `id_number` will be private.
+3. Run the program. Did the result changed? What is the conclusion?
+
+4. Add the `printData()` method to the `chairman` class, which will also
+include `email`. Is it possible to access to the components `name_surname` and
+`id_number`? Correct the program so it will be displaying all `chairman`
+class data correctly.
+
+5. Place the modified code **in your branch** in the remote repository.
